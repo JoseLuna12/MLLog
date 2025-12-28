@@ -1,4 +1,4 @@
-from ml_simple_logging import TrainLogger, Colors, format_time, format_value
+from mllog import TrainLogger, Colors, format_time, format_value
 
 
 def test_colors_values():

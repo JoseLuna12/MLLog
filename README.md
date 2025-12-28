@@ -1,17 +1,17 @@
-# ML Simple Logging
+# MLLog
 
 Minimal Python logging library for machine learning training loops. Wraps tqdm for progress bars, provides colored status messages, and controls the training loop.
 
 ## Installation
 
 ```bash
-pip install ml-simple-logging
+pip install mllog
 ```
 
 ## Quick Start
 
 ```python
-from ml_simple_logging import TrainLogger
+from mllog import TrainLogger
 
 logger = TrainLogger(name="MyModel", epochs=10)
 

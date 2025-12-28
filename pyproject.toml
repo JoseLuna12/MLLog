@@ -1,7 +1,7 @@
 [project]
-name = "ml-simple-logging"
+name = "mllog"
 version = "0.1.0"
-description = "Add your description here"
+description = "Minimal Python logging library for machine learning training loops"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

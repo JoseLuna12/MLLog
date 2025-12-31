@@ -1,4 +1,5 @@
 from typing import Iterator, Iterable, TypeVar, cast
+import shutil
 import time
 from tqdm import tqdm
 
@@ -34,12 +35,24 @@ def format_value(v: float | int | str) -> str:
 
 
 class TrainLogger:
-    def __init__(self, name: str = "Training", epochs: int = 1, bar_width: int = 40):
+    def __init__(
+        self, name: str = "Training", epochs: int = 1, bar_width: int | None = None
+    ):
         self.name = name
         self.epochs_total = epochs
-        self.bar_width = bar_width
+        self._bar_ncols: int | None = bar_width  # None => tqdm uses terminal width
+        self.bar_width = (
+            bar_width if bar_width is not None else self._get_terminal_width()
+        )
         self._start_time: float | None = None
         self._current_epoch: int = 0
+
+    def _get_terminal_width(self) -> int:
+        # tqdm uses ncols=None to auto-size; we mirror that width for dividers
+        try:
+            return shutil.get_terminal_size().columns
+        except OSError:
+            return 40
 
     def _print_header(self) -> None:
         print(f"Training: {self.name}")
@@ -68,12 +81,12 @@ class TrainLogger:
 
     def train(self, iterable: Iterable[T]) -> Iterator[T]:
         return cast(
-            Iterator[T], tqdm(iterable, desc="train", ncols=self.bar_width, leave=False)
+            Iterator[T], tqdm(iterable, desc="train", ncols=self._bar_ncols, leave=False)
         )
 
     def val(self, iterable: Iterable[T]) -> Iterator[T]:
         return cast(
-            Iterator[T], tqdm(iterable, desc="val  ", ncols=self.bar_width, leave=False)
+            Iterator[T], tqdm(iterable, desc="val  ", ncols=self._bar_ncols, leave=False)
         )
 
     def log(self, **metrics: float | int | str) -> None:

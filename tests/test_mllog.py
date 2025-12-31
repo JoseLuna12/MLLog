@@ -37,6 +37,7 @@ def test_train_logger_initialization():
     assert logger.name == "Test"
     assert logger.epochs_total == 10
     assert logger.bar_width == 50
+    assert logger._bar_ncols == 50
     assert logger._start_time is None
     assert logger._current_epoch == 0
 
@@ -45,7 +46,8 @@ def test_train_logger_default_params():
     logger = TrainLogger()
     assert logger.name == "Training"
     assert logger.epochs_total == 1
-    assert logger.bar_width == 40
+    assert logger.bar_width > 0
+    assert logger._bar_ncols is None
 
 
 def test_train_logger_epochs_count():

@@ -36,10 +36,12 @@ logger.finish()
 ```python
 TrainLogger(
     name: str = "Training",     # Display name for training run
-    epochs: int = 1,             # Total epoch count
-    bar_width: int = 40,        # Progress bar character width
+    epochs: int = 1,            # Total epoch count
+    bar_width: int | None = None, # Progress bar width; None auto-sizes to terminal
 )
 ```
+
+By default the progress bars expand to the current terminal width; provide `bar_width` to pin them to a specific size (dividers use the same width).
 
 ## Use Cases
 
